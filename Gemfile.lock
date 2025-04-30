@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    shrine-blurhash (0.2.2)
+    shrine-blurhash (0.2.3)
       blurhash (~> 0.1.8)
       shrine (~> 3.0)
 
@@ -14,12 +14,14 @@ GEM
     content_disposition (1.0.0)
     down (5.4.2)
       addressable (~> 2.8)
-    ffi (1.15.5)
-    minitest (5.15.0)
-    public_suffix (6.0.1)
-    rake (13.0.6)
-    ruby-vips (2.1.4)
+    ffi (1.17.2)
+    logger (1.7.0)
+    minitest (5.25.5)
+    public_suffix (6.0.2)
+    rake (13.2.1)
+    ruby-vips (2.2.3)
       ffi (~> 1.12)
+      logger
     shrine (3.6.0)
       content_disposition (~> 1.0)
       down (~> 5.1)
