@@ -94,7 +94,7 @@ class Shrine
           return super unless self.class.opts[:blurhash][:auto_extraction]
 
           if self.class.respond_to?(:determine_mime_type)
-            mime_type = self.class.determine_mime_type(io, **options)
+            mime_type = self.class.determine_mime_type(io)
             return super unless mime_type.start_with?("image/")
           end
 
