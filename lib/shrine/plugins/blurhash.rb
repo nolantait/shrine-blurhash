@@ -93,6 +93,11 @@ class Shrine
         def extract_metadata(io, **options)
           return super unless self.class.opts[:blurhash][:auto_extraction]
 
+          if self.class.respond_to?(:determine_mime_type)
+            mime_type = self.class.determine_mime_type(io, **options)
+            return super unless mime_type.start_with?("image/")
+          end
+
           blurhash = self.class.compute_blurhash(io)
           super.merge!("blurhash" => blurhash)
         end

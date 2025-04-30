@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "bundler/setup"
+require "debug"
 require "minitest/autorun"
 require "shrine"
 require "shrine/storage/memory"
@@ -12,7 +13,9 @@ describe Shrine::Plugins::Blurhash do
 
     uploader_class.storages[:cache] = Shrine::Storage::Memory.new
     uploader_class.storages[:store] = Shrine::Storage::Memory.new
-    uploader_class.class_eval { plugin :blurhash, extractor: :ruby_vips }
+    uploader_class.class_eval do
+      plugin :blurhash, extractor: :ruby_vips
+    end
 
     @shrine = uploader_class
     @uploader = uploader_class.new(:store)
@@ -20,6 +23,10 @@ describe Shrine::Plugins::Blurhash do
 
   def image
     File.open("test/fixtures/image1.jpg", binmode: true)
+  end
+
+  def csv
+    File.open("test/fixtures/test.csv")
   end
 
   it "computes the correct blurhash with default options" do
@@ -74,12 +81,26 @@ describe Shrine::Plugins::Blurhash do
   describe "auto_extraction: false" do
     it "does not add metadata" do
       @shrine.plugin :blurhash, auto_extraction: false
+      @shrine.plugin :determine_mime_type
       uploaded_file = @uploader.upload(image)
       assert_nil uploaded_file.metadata["blurhash"]
     end
 
     it "provides method to compute blurhash from files" do
       assert_equal "LLHLk~jZ2xkBpdoKaeR*%fkCMxnj", @shrine.compute_blurhash(image)
+    end
+  end
+
+  describe "respecting external validations" do
+    it "computes the blurhash if no analyzer" do
+      uploaded_file = @uploader.upload(csv)
+      refute_nil uploaded_file.metadata["blurhash"]
+    end
+
+    it "does not compute the blurhash an analyzer is present" do
+      @shrine.plugin :determine_mime_type
+      uploaded_file = @uploader.upload(csv)
+      assert_nil uploaded_file.metadata["blurhash"]
     end
   end
 end
