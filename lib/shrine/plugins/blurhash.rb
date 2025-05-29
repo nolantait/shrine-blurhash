@@ -47,7 +47,14 @@ class Shrine
             pixels = extractor.call(*args)
 
             x_comp, y_comp = components_for(pixels[:width], pixels[:height])
-            ::Blurhash.encode(pixels[:width], pixels[:height], pixels[:pixels], x_comp: x_comp, y_comp: y_comp)
+
+            ::Blurhash.encode(
+              width: pixels[:width],
+              height: pixels[:height],
+              pixels: pixels[:pixels],
+              component_x: x_comp,
+              component_y: y_comp
+            )
           end
 
           io.rewind

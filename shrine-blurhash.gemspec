@@ -15,8 +15,8 @@ Gem::Specification.new do |gem|
   gem.files        = Dir["README.md", "LICENSE.txt", "lib/**/*.rb", "shrine-blurhash.gemspec"]
   gem.require_path = "lib"
 
-  gem.add_dependency "blurhash", "~> 0.1.8"
   gem.add_dependency "shrine", "~> 3.0"
+  gem.add_dependency "blurhash-rb", "~> 0.1.0"
 
   gem.add_development_dependency "minitest"
   gem.add_development_dependency "rake"
